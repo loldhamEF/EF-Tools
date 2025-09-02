@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Executive Functioning Growth Cycle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .flow-arrow {
+            position: relative;
+            text-align: center;
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #7a5195;
+        }
+        .flow-arrow::before, .flow-arrow::after {
+            content: '';
+            position: absolute;
+            height: 2px;
+            background-color: #e5e7eb;
+            width: calc(50% - 30px);
+        }
+        .flow-arrow::before {
+            left: 0;
+        }
+        .flow-arrow::after {
+            right: 0;
+        }
+        .gemini-card {
+            background-color: #f3e8ff;
+            border: 1px solid #d8b4fe;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            transition: transform 0.2s;
+        }
+        .gemini-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8 max-w-5xl">
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#5f3f7e] mb-4">The Executive Functioning Growth Cycle</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">A visual guide to understanding, assessing, and strengthening the skills that lead to success.</p>
+        </header>
+
+        <main class="space-y-16">
+            <!-- Section 1: What are EF Skills? -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="text-content">
+                    <h2 class="text-3xl font-bold text-[#5f3f7e] mb-4">What Are Executive Functions?</h2>
+                    <p class="text-gray-700 mb-4">Executive Functions are the brain-based skills required for humans to execute, or perform, tasks. They are the essential self-regulating skills that enable us to plan, organize, manage time, and persist to complete goals.</p>
+                    <p class="text-gray-700">For students, strengthening these skills is the key to unlocking academic potential and building lifelong habits for success.</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="efSkillsChart"></canvas>
+                </div>
+            </section>
+            
+            <div class="flow-arrow text-4xl font-light">↓</div>
+
+            <!-- Section 2: The Growth Cycle -->
+            <section>
+                <h2 class="text-3xl font-bold text-[#5f3f7e] text-center mb-12">Our 3-Step Growth Cycle</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white rounded-lg shadow-md p-6 border-t-4 border-[#de77ae]">
+                        <div class="text-4xl mb-4">①</div>
+                        <h3 class="text-2xl font-bold text-[#5f3f7e] mb-2">Assess</h3>
+                        <p class="text-gray-600">Students start by completing a self-assessment to identify their personal strengths and areas for growth.</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6 border-t-4 border-[#7a5195]">
+                        <div class="text-4xl mb-4">②</div>
+                        <h3 class="text-2xl font-bold text-[#5f3f7e] mb-2">Plan</h3>
+                        <p class="text-gray-600">Using their results, students create a targeted, actionable SMART goal with teacher guidance.</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6 border-t-4 border-[#24a0ed]">
+                        <div class="text-4xl mb-4">③</div>
+                        <h3 class="text-2xl font-bold text-[#5f3f7e] mb-2">Grow</h3>
+                        <p class="text-gray-600">Through weekly lessons and practice, students work on their goals and build lasting skills.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="flow-arrow text-4xl font-light">↓</div>
+
+            <!-- Section 3: Assessment Areas (REVISED) -->
+            <section>
+                <h2 class="text-3xl font-bold text-[#5f3f7e] text-center mb-4">Key Areas We Assess</h2>
+                <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Our pre-assessment helps students reflect on these five core areas of executive functioning.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+                    
+                    <div class="w-full max-w-sm bg-white rounded-lg shadow-md p-6 text-center border-t-4 border-[#de77ae]">
+                        <div class="text-5xl mb-4">🗂️</div>
+                        <h3 class="text-xl font-bold text-[#5f3f7e]">Materials Management</h3>
+                        <p class="text-gray-600 mt-2 text-sm">Keeping your binder, backpack, and locker organized.</p>
+                    </div>
+
+                    <div class="w-full max-w-sm bg-white rounded-lg shadow-md p-6 text-center border-t-4 border-[#7a5195]">
+                        <div class="text-5xl mb-4">🗓️</div>
+                        <h3 class="text-xl font-bold text-[#5f3f7e]">Time Management & Planning</h3>
+                        <p class="text-gray-600 mt-2 text-sm">Using a planner and breaking down big projects into small steps.</p>
+                    </div>
+
+                    <div class="w-full max-w-sm bg-white rounded-lg shadow-md p-6 text-center border-t-4 border-[#5f3f7e]">
+                        <div class="text-5xl mb-4">🧠</div>
+                        <h3 class="text-xl font-bold text-[#5f3f7e]">Study Strategies</h3>
+                        <p class="text-gray-600 mt-2 text-sm">Knowing how to take notes and prepare effectively for tests.</p>
+                    </div>
+
+                    <div class="w-full max-w-sm bg-white rounded-lg shadow-md p-6 text-center border-t-4 border-[#24a0ed] sm:col-start-1 lg:col-start-2">
+                        <div class="text-5xl mb-4">🎯</div>
+                        <h3 class="text-xl font-bold text-[#5f3f7e]">Goal Setting</h3>
+                        <p class="text-gray-600 mt-2 text-sm">Setting academic goals for yourself and tracking your progress.</p>
+                    </div>
+
+                    <div class="w-full max-w-sm bg-white rounded-lg shadow-md p-6 text-center border-t-4 border-[#ffc857]">
+                        <div class="text-5xl mb-4">🗣️</div>
+                        <h3 class="text-xl font-bold text-[#5f3f7e]">Self-Advocacy & Mindset</h3>
+                        <p class="text-gray-600 mt-2 text-sm">Asking for help when you need it and believing you can improve.</p>
+                    </div>
+
+                </div>
+            </section>
+
+             <div class="flow-arrow text-4xl font-light">↓</div>
+
+            <!-- Section 4: Personalized Goals with Gemini -->
+            <section class="bg-white rounded-lg shadow-md p-8 border-t-4 border-[#7a5195]">
+                <h2 class="text-3xl font-bold text-[#5f3f7e] text-center mb-4">✨ Personalized Goal Strategies with Gemini</h2>
+                <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Need ideas for a goal? Select a focus area and let our AI assistant generate some starting points for you!</p>
+                
+                <div class="max-w-md mx-auto">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <select id="skill-select" class="block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500">
+                            <option value="" disabled selected>Select a skill to focus on...</option>
+                            <option value="Materials Management">Materials Management</option>
+                            <option value="Time Management & Planning">Time Management & Planning</option>
+                            <option value="Study Strategies">Study Strategies</option>
+                            <option value="Goal Setting">Goal Setting</option>
+                            <option value="Self-Advocacy & Mindset">Self-Advocacy & Mindset</option>
+                        </select>
+                        <button id="generate-btn" class="bg-[#7a5195] hover:bg-[#5f3f7e] text-white font-bold py-3 px-6 rounded-md transition duration-300 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed">
+                            Generate Goal Ideas
+                        </button>
+                    </div>
+                </div>
+
+                <div id="loading-indicator" class="text-center mt-6 hidden">
+                    <p class="text-gray-600">🧠 Generating ideas...</p>
+                </div>
+                
+                <div id="gemini-output" class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- AI-generated content will appear here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Data for EF Skills Chart
+        const efSkillsData = {
+            labels: ['Planning', 'Organization', 'Time Management', 'Working Memory', 'Metacognition', 'Self-Control', 'Flexibility'],
+            datasets: [{
+                label: 'Importance for Student Success',
+                data: [95, 92, 88, 85, 82, 78, 75],
+                backgroundColor: '#de77ae',
+            }]
+        };
+
+        // Config for EF Skills Chart
+        const efSkillsConfig = {
+            type: 'bar',
+            data: efSkillsData,
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Core Executive Function Skills'
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        };
+
+        // Render EF Skills Chart
+        new Chart(
+            document.getElementById('efSkillsChart'),
+            efSkillsConfig
+        );
+        
+        // Gemini API Interaction
+        const generateBtn = document.getElementById('generate-btn');
+        const skillSelect = document.getElementById('skill-select');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const geminiOutput = document.getElementById('gemini-output');
+
+        generateBtn.addEventListener('click', async () => {
+            const selectedSkill = skillSelect.value;
+            if (!selectedSkill) {
+                alert('Please select a skill first.');
+                return;
+            }
+
+            loadingIndicator.classList.remove('hidden');
+            geminiOutput.innerHTML = '';
+
+            const systemPrompt = "You are an academic coach who specializes in executive functioning. Generate three distinct, actionable SMART goal ideas for a high school student based on the selected focus area. For each goal, provide a short, clear title and a one-sentence description. Format the entire output as a JSON object with a single key 'goals', which is an array of objects, where each object has a 'title' and a 'description'.";
+            const userQuery = `Focus Area: ${selectedSkill}`;
+            
+            const apiKey = "AIzaSyB_khvi4C7_FljXIFaqkQb1hqkEPocDtQY";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                generationConfig: {
+                    responseMimeType: "application/json",
+                },
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                
+                loadingIndicator.classList.add('hidden');
+
+                if (result.candidates && result.candidates.length > 0) {
+                    const json = result.candidates[0].content.parts[0].text;
+                    const parsedJson = JSON.parse(json);
+                    
+                    parsedJson.goals.forEach(goal => {
+                        const card = document.createElement('div');
+                        card.className = 'gemini-card';
+                        card.innerHTML = `<h4 class="font-bold text-[#5f3f7e]">${goal.title}</h4><p class="text-sm text-gray-700 mt-1">${goal.description}</p>`;
+                        geminiOutput.appendChild(card);
+                    });
+                } else {
+                    geminiOutput.innerHTML = '<p class="text-red-500">Sorry, something went wrong. Please try again.</p>';
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                loadingIndicator.classList.add('hidden');
+                geminiOutput.innerHTML = '<p class="text-red-500">There was an error connecting to the AI service. Please check your connection and try again.</p>';
+            }
+        });
+
+    </script>
+</body>
+</html>
+
