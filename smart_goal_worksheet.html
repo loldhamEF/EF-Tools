@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART Goal Worksheet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none;
+            }
+            .printable-area {
+                box-shadow: none !important;
+                border: none !important;
+            }
+        }
+        textarea {
+            resize: vertical;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-8 max-w-4xl">
+        
+        <div class="bg-white rounded-xl shadow-lg p-6 sm:p-10 printable-area">
+            <header class="text-center border-b pb-6 mb-8">
+                <h1 class="text-3xl sm:text-4xl font-bold text-purple-700 mb-2">My SMART Goal Worksheet</h1>
+                <p class="text-gray-600">A tool to turn your big ideas into actionable steps!</p>
+            </header>
+
+            <div class="mb-8 p-4 bg-purple-50 border border-purple-200 rounded-lg text-purple-800">
+                <h2 class="font-bold mb-2">🚀 How to Use This Worksheet</h2>
+                <p>Use your pre-assessment results to think of a "big goal idea." Then, fill out each section below to make it a SMART goal. When you're done, click the submit button to save your goal and get AI-powered suggestions!</p>
+            </div>
+
+            <!-- SMART Goal Template -->
+            <form id="goal-form" class="space-y-6">
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="studentName" class="block text-sm font-medium text-gray-700">Student Name</label>
+                        <input type="text" name="studentName" id="studentName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm" required>
+                    </div>
+                     <div>
+                        <label for="studentId" class="block text-sm font-medium text-gray-700">Student ID (Optional)</label>
+                        <input type="text" name="studentId" id="studentId" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm">
+                    </div>
+                </div>
+                <div>
+                    <label for="big-idea" class="block font-semibold text-lg text-gray-700">My Big Goal Idea:</label>
+                    <p class="text-sm text-gray-500 mb-2">What's one thing I want to get better at? Look at your pre-assessment results for ideas!</p>
+                    <textarea id="big-idea" rows="2" class="w-full bg-gray-100 p-4 rounded-md border focus:ring-purple-500 focus:border-purple-500"></textarea>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-center text-purple-700 pt-4">Now let's make it a SMART Goal!</h2>
+
+                <div>
+                    <label for="goal-s" class="block font-semibold text-lg text-gray-700"><span class="font-bold text-purple-600">S</span> - Specific (What *exactly* do I want to do?)</label>
+                    <p class="text-sm text-gray-500 mb-2">Instead of "Be more organized," try "I will organize my binder for English class."</p>
+                    <textarea id="goal-s" rows="2" class="w-full bg-gray-100 p-4 rounded-md border focus:ring-purple-500 focus:border-purple-500" required></textarea>
+                </div>
+                <div>
+                    <label for="goal-m" class="block font-semibold text-lg text-gray-700"><span class="font-bold text-purple-600">M</span> - Measurable (How will I know I've done it?)</label>
+                    <p class="text-sm text-gray-500 mb-2">How will you measure success? Think numbers, checklists, or "yes/no."</p>
+                    <textarea id="goal-m" rows="2" class="w-full bg-gray-100 p-4 rounded-md border focus:ring-purple-500 focus:border-purple-500" required></textarea>
+                </div>
+                <div>
+                    <label for="goal-a" class="block font-semibold text-lg text-gray-700"><span class="font-bold text-purple-600">A</span> - Achievable (Is this realistic for me *right now*?)</label>
+                    <p class="text-sm text-gray-500 mb-2">Can I really do this every day, or should I start with a few times a week? What support might I need?</p>
+                    <textarea id="goal-a" rows="2" class="w-full bg-gray-100 p-4 rounded-md border focus:ring-purple-500 focus:border-purple-500" required></textarea>
+                </div>
+                <div>
+                    <label for="goal-r" class="block font-semibold text-lg text-gray-700"><span class="font-bold text-purple-600">R</span> - Relevant (Why is this important to me?)</label>
+                    <p class="text-sm text-gray-500 mb-2">How will this make school or my life less stressful?</p>
+                    <textarea id="goal-r" rows="2" class="w-full bg-gray-100 p-4 rounded-md border focus:ring-purple-500 focus:border-purple-500" required></textarea>
+                </div>
+                <div>
+                    <label for="goal-t" class="block font-semibold text-lg text-gray-700"><span class="font-bold text-purple-600">T</span> - Time-Bound (When will I do this? For how long?)</label>
+                    <p class="text-sm text-gray-500 mb-2">Give yourself a deadline or a specific time to work on your goal.</p>
+                    <textarea id="goal-t" rows="2" class="w-full bg-gray-100 p-4 rounded-md border focus:ring-purple-500 focus:border-purple-500" required></textarea>
+                </div>
+            </form>
+            
+            <div id="submission-feedback" class="mt-4 text-center"></div>
+            
+            <div id="config-error" class="hidden my-4 p-4 bg-red-100 border border-red-300 text-red-800 rounded-lg no-print">
+                <h3 class="font-bold">Configuration Needed!</h3>
+                <p>The Firebase configuration is using placeholder values. Please replace the `firebaseConfig` object in the HTML file with your own project's configuration from the Firebase Console to enable data submission.</p>
+            </div>
+
+            <div class="mt-8 text-center no-print">
+                <button id="submit-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105 w-full sm:w-auto">
+                    Submit Goal & Get AI Feedback
+                </button>
+            </div>
+            
+            <div id="feedback-container" class="mt-8 no-print hidden">
+                 <h2 class="text-2xl font-bold text-center mb-4">💡 AI Feedback</h2>
+                 <div id="loading-indicator" class="hidden text-center">
+                    <p>Your AI coach is thinking...</p>
+                 </div>
+                 <div id="gemini-output" class="p-4 bg-purple-50 border border-purple-200 rounded-lg text-purple-900 whitespace-pre-wrap"></div>
+            </div>
+
+        </div>
+
+        <!-- Example SMART Goals -->
+        <div class="mt-10">
+            <h2 class="text-2xl font-bold text-center mb-6">💡 Example SMART Goals</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Example 1 -->
+                <div class="bg-white rounded-xl shadow-lg p-6 border-t-4 border-purple-500">
+                    <h3 class="font-bold text-xl mb-3">Area: Time Management and Planning</h3>
+                    <p class="text-sm mb-4 italic">Based on a low score for: "I use a planner to write down my homework and assignments."</p>
+                    <ul class="space-y-2 text-sm">
+                        <li><span class="font-bold text-purple-600">S:</span> I will write down all my assignments in my planner during my last class of the day.</li>
+                        <li><span class="font-bold text-purple-600">M:</span> A teacher or parent will initial my planner at the end of each day to confirm I have written something for each class.</li>
+                        <li><span class="font-bold text-purple-600">A:</span> Yes, I can do this. I will set a reminder on my phone for 2:15 PM every day.</li>
+                        <li><span class="font-bold text-purple-600">R:</span> This is important because it will help me stop forgetting to do my homework.</li>
+                        <li><span class="font-bold text-purple-600">T:</span> I will do this every school day for the entire first quarter.</li>
+                    </ul>
+                </div>
+                <!-- Example 2 -->
+                <div class="bg-white rounded-xl shadow-lg p-6 border-t-4 border-purple-500">
+                    <h3 class="font-bold text-xl mb-3">Area: Study Strategies</h3>
+                    <p class="text-sm mb-4 italic">Based on a low score for: "I create a study plan to prepare for tests."</p>
+                    <ul class="space-y-2 text-sm">
+                        <li><span class="font-bold text-purple-600">S:</span> For my next Social Studies test, I will create a one-page study plan that breaks down what I will study and when.</li>
+                        <li><span class="font-bold text-purple-600">M:</span> The study plan itself is the measure of success. I will show it to my advisory teacher at least 3 days before the test.</li>
+                        <li><span class="font-bold text-purple-600">A:</span> Yes, this is achievable. I will use a template from advisory to help me.</li>
+                        <li><span class="font-bold text-purple-600">R:</span> This will help me feel more confident and less anxious on test day.</li>
+                        <li><span class="font-bold text-purple-600">T:</span> I will do this for my next Social Studies test, which is on October 15th.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center no-print">
+            <button onclick="window.print()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105">
+                Save or Print My Worksheet
+            </button>
+        </div>
+
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyDp5s-3x9_3MbbiwscWp_HMpDg5pzXMyZs",
+          authDomain: "ef-in-action.firebaseapp.com",
+          projectId: "ef-in-action",
+          storageBucket: "ef-in-action.firebasestorage.app",
+          messagingSenderId: "403532180118",
+          appId: "1:403532180118:web:1ed1440e41e474f0aa70b7",
+          measurementId: "G-1KHMKWPS04"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const submissionFeedback = document.getElementById('submission-feedback');
+        
+        signInAnonymously(auth).catch((error) => {
+            console.error("Anonymous sign-in failed:", error);
+            if (error.code === 'auth/configuration-not-found') {
+                console.error("FIREBASE SETUP ERROR: This usually means 'Anonymous sign-in' is not enabled in your Firebase project. Please go to the Firebase Console -> Authentication -> Sign-in method -> and enable 'Anonymous'.");
+                submissionFeedback.innerHTML = '<div class="p-4 bg-red-100 border border-red-300 text-red-800 rounded-lg"><strong>Backend Configuration Error:</strong> Anonymous sign-in is not enabled in the Firebase project. Please contact your administrator.</div>';
+            }
+        });
+
+        const goalForm = document.getElementById('goal-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const feedbackContainer = document.getElementById('feedback-container');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const geminiOutput = document.getElementById('gemini-output');
+
+        submitBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            if (!goalForm.checkValidity()) {
+                goalForm.reportValidity();
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submissionFeedback.textContent = 'Submitting your goal...';
+            submissionFeedback.className = 'text-blue-600';
+
+            const studentName = document.getElementById('studentName').value;
+            const studentId = document.getElementById('studentId').value;
+            const bigIdea = document.getElementById('big-idea').value;
+            const goalS = document.getElementById('goal-s').value;
+            const goalM = document.getElementById('goal-m').value;
+            const goalA = document.getElementById('goal-a').value;
+            const goalR = document.getElementById('goal-r').value;
+            const goalT = document.getElementById('goal-t').value;
+
+            const goalData = {
+                studentName,
+                studentId,
+                bigIdea,
+                specific: goalS,
+                measurable: goalM,
+                achievable: goalA,
+                relevant: goalR,
+                timeBound: goalT,
+                submittedAt: serverTimestamp()
+            };
+
+            try {
+                const docRef = await addDoc(collection(db, "student_goals"), goalData);
+                
+                submissionFeedback.textContent = '✅ Goal successfully submitted! Now getting AI feedback...';
+                submissionFeedback.className = 'text-green-600 font-semibold';
+                
+                await getGeminiFeedback(goalData);
+
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                submissionFeedback.textContent = '❌ There was an error submitting your goal. Please try again.';
+                submissionFeedback.className = 'text-red-600 font-semibold';
+                submitBtn.disabled = false;
+            }
+        });
+
+        async function getGeminiFeedback(goalData) {
+            feedbackContainer.classList.remove('hidden');
+            loadingIndicator.classList.remove('hidden');
+            geminiOutput.innerHTML = '';
+
+            const systemPrompt = "You are an encouraging and insightful academic coach for high school students. Analyze the user's SMART goal based on their inputs. Provide specific, constructive feedback for each of the S, M, A, R, and T components. Start with a positive reinforcement, then offer one clear suggestion for improvement for any area that could be stronger. Keep the tone friendly and helpful. Format the response with clear headings for each SMART component.";
+            
+            const userQuery = `Here is my SMART goal. Please give me feedback on it.
+            - Big Goal Idea: ${goalData.bigIdea}
+            - Specific (S): ${goalData.specific}
+            - Measurable (M): ${goalData.measurable}
+            - Achievable (A): ${goalData.achievable}
+            - Relevant (R): ${goalData.relevant}
+            - Time-Bound (T): ${goalData.timeBound}`;
+            
+            // SECURITY FIX: The old key was removed.
+            // PASTE YOUR NEW GEMINI API KEY FROM GOOGLE AI STUDIO HERE
+            const apiKey = AIzaSyB_khvi4C7_FljXIFaqkQb1hqkEPocDtQY; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                
+                loadingIndicator.classList.add('hidden');
+
+                if (result.candidates && result.candidates.length > 0) {
+                    const feedbackText = result.candidates[0].content.parts[0].text;
+                    geminiOutput.textContent = feedbackText;
+                } else {
+                    console.error("Gemini API Error:", result);
+                    geminiOutput.textContent = 'Sorry, the AI model returned an unexpected response. Please check the console for details.';
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                loadingIndicator.classList.add('hidden');
+                geminiOutput.textContent = 'There was an error connecting to the AI service. Please check your connection and try again.';
+            } finally {
+                submitBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
+
+
