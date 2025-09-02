@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Functioning Pre-Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .rating-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            width: 50px;
+        }
+        .rating-input {
+            margin-bottom: 0.25rem;
+        }
+        .question-group {
+            border-left: 3px solid #6366f1;
+            padding-left: 1.5rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-8 max-w-4xl">
+        
+        <div class="bg-white rounded-xl shadow-lg p-6 sm:p-10">
+            <header class="text-center border-b pb-6 mb-8">
+                <h1 class="text-3xl sm:text-4xl font-bold text-indigo-700 mb-2">My Executive Functioning Skills Check-In</h1>
+                <p class="text-gray-600">This is a tool to help you discover your strengths and plan for growth this year!</p>
+            </header>
+
+            <div class="mb-8 p-4 bg-indigo-50 border border-indigo-200 rounded-lg text-indigo-800">
+                <h2 class="font-bold mb-2">👋 Instructions for Students</h2>
+                <p>This is not a test! There are no right or wrong answers. Your honest answers will help you and your teachers set meaningful goals. When you are finished, please click the submit button at the bottom.</p>
+            </div>
+
+            <form id="ef-assessment-form">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <div>
+                        <label for="studentName" class="block text-sm font-medium text-gray-700">Student Name</label>
+                        <input type="text" name="studentName" id="studentName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
+                    </div>
+                     <div>
+                        <label for="studentId" class="block text-sm font-medium text-gray-700">Student ID (Optional)</label>
+                        <input type="text" name="studentId" id="studentId" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    <!-- Questions will be dynamically inserted here -->
+                </div>
+                
+                <div id="submission-feedback" class="mt-6 text-center"></div>
+
+                <div class="mt-8 text-center">
+                    <button id="submit-btn" type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105 w-full sm:w-auto">
+                        Submit My Results
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyDp5s-3x9_3MbbiwscWp_HMpDg5pzXMyZs",
+          authDomain: "ef-in-action.firebaseapp.com",
+          projectId: "ef-in-action",
+          storageBucket: "ef-in-action.appspot.com",
+          messagingSenderId: "403532180118",
+          appId: "1:403532180118:web:1ed1440e41e474f0aa70b7",
+          measurementId: "G-1KHMKWPS04"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        signInAnonymously(auth).catch((error) => {
+            console.error("Anonymous sign-in failed:", error);
+        });
+
+        const questions = [
+            { section: 'Section A: Materials Management', q: '1. I use a binder and/or folders to keep my school materials organized.' },
+            { section: 'Section A: Materials Management', q: '2. I can find what I need in my backpack and locker without much trouble.' },
+            { section: 'Section A: Materials Management', q: '3. I have a system for keeping track of graded papers and old assignments.' },
+            { section: 'Section B: Time Management & Planning', q: '4. I use a planner to write down my homework and assignments.' },
+            { section: 'Section B: Time Management & Planning', q: '5. I can estimate how long it will take me to complete my homework.' },
+            { section: 'Section B: Time Management & Planning', q: '6. I break down large projects into smaller, more manageable steps.' },
+            { section: 'Section B: Time Management & Planning', q: '7. I plan my time for homework and other activities after school.' },
+            { section: 'Section C: Study Strategies', q: '8. I know how to identify the key words in essay questions to understand what the teacher is asking.' },
+            { section: 'Section C: Study Strategies', q: '9. I use different methods of taking notes to help me remember what I\'m learning.' },
+            { section: 'Section C: Study Strategies', q: '10. I have a quiet place to study at home, free from distractions.' },
+            { section: 'Section C: Study Strategies', q: '11. I create a study plan to prepare for tests.' },
+            { section: 'Section C: Study Strategies', q: '12. After a test, I review my mistakes to understand what I can do better next time.' },
+            { section: 'Section D: Goal Setting', q: '13. I set academic goals for myself.' },
+            { section: 'Section D: Goal Setting', q: '14. I can identify the steps I need to take to reach my goals.' },
+            { section: 'Section D: Goal Setting', q: '15. I track my grades to see my progress in each class.' },
+            { section: 'Section E: Self-Advocacy & Mindset', q: '16. When I\'m confused in class, I ask the teacher for help.' },
+            { section: 'Section E: Self-Advocacy & Mindset', q: '17. I know what accommodations I need and how to ask for them.' },
+            { section: 'Section E: Self-Advocacy & Mindset', q: '18. I believe that I can improve my skills with effort and practice.' },
+        ];
+
+        const formContainer = document.querySelector('.space-y-8');
+        let currentSection = "";
+        questions.forEach((item, index) => {
+            if (item.section !== currentSection) {
+                currentSection = item.section;
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'question-group';
+                sectionDiv.innerHTML = `<h3 class="text-2xl font-semibold text-gray-800 mb-4">${currentSection}</h3><div class="space-y-6" data-section-container="${currentSection}"></div>`;
+                formContainer.appendChild(sectionDiv);
+            }
+
+            const container = formContainer.querySelector(`[data-section-container="${currentSection}"]`);
+            const questionDiv = document.createElement('div');
+            const qName = `q${index + 1}`;
+            questionDiv.innerHTML = `
+                <p class="font-semibold mb-3">${item.q}</p>
+                <div class="flex justify-around items-start">
+                    <label class="rating-label"><input type="radio" name="${qName}" value="1" class="rating-input h-5 w-5 text-indigo-600" required>1<br><span class="text-xs text-gray-500">Never</span></label>
+                    <label class="rating-label"><input type="radio" name="${qName}" value="2" class="rating-input h-5 w-5 text-indigo-600">2<br><span class="text-xs text-gray-500">Rarely</span></label>
+                    <label class="rating-label"><input type="radio" name="${qName}" value="3" class="rating-input h-5 w-5 text-indigo-600">3<br><span class="text-xs text-gray-500">Sometimes</span></label>
+                    <label class="rating-label"><input type="radio" name="${qName}" value="4" class="rating-input h-5 w-5 text-indigo-600">4<br><span class="text-xs text-gray-500">Often</span></label>
+                    <label class="rating-label"><input type="radio" name="${qName}" value="5" class="rating-input h-5 w-5 text-indigo-600">5<br><span class="text-xs text-gray-500">Always</span></label>
+                </div>
+            `;
+            container.appendChild(questionDiv);
+        });
+
+        const assessmentForm = document.getElementById('ef-assessment-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const submissionFeedback = document.getElementById('submission-feedback');
+
+        assessmentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            submitBtn.disabled = true;
+            submissionFeedback.textContent = 'Submitting your results...';
+            submissionFeedback.className = 'text-blue-600';
+
+            const formData = new FormData(assessmentForm);
+            const assessmentData = {
+                studentName: formData.get('studentName'),
+                studentId: formData.get('studentId'),
+                submittedAt: serverTimestamp(),
+                responses: {}
+            };
+
+            for (let i = 0; i < questions.length; i++) {
+                assessmentData.responses[`q${i + 1}`] = formData.get(`q${i + 1}`);
+            }
+
+            try {
+                const docRef = await addDoc(collection(db, "student_assessments"), assessmentData);
+                submissionFeedback.textContent = '✅ Success! Your results have been submitted.';
+                submissionFeedback.className = 'text-green-600 font-semibold';
+                assessmentForm.reset();
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                submissionFeedback.textContent = '❌ There was an error submitting. Please try again.';
+                submissionFeedback.className = 'text-red-600 font-semibold';
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
